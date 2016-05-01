@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 import argparse
 
@@ -7,6 +7,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
 
 parser = argparse.ArgumentParser(description='Automated buying webticket \
                                  for slovak rails.')
@@ -19,12 +20,12 @@ parser.add_argument('--name', '-n', help='Exact name of the train,\
 
 args = parser.parse_args()
 
-city_from = args.FROM
-city_to = args.TO
-train_time = args.time
-train_name = args.name
+city_from = (args.FROM)
+city_to = (args.TO)
+train_time = (args.time)
+train_name = (args.name)
 
-raise SystemExit(0)
+print(city_from, city_to, train_time, train_name)
 
 driver = webdriver.Firefox()
 driver.get(
@@ -34,7 +35,8 @@ delay = 5  # wait seconds for web page to load
 try:
     WebDriverWait(driver, delay)\
         .until(EC.presence_of_all_elements_located
-               (driver.find_element_by_id('searchParamForm')))
+               ((By.ID, "searchParamForm"))
+               )
     print("Page is ready.")
 except TimeoutException:
     print("Loading took too much time.")
