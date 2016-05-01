@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# import requests
-# import re
+import argparse
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -9,17 +8,23 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-# driver = webdriver.Firefox()
-# driver.get("http://www.python.org")
-# assert "Python" in driver.title
-# elem = driver.find_element_by_name("q")
-# elem.send_keys("pycon")
-# elem.send_keys(Keys.RETURN)
-# assert "No results found." not in driver.page_source
-# driver.close()
+parser = argparse.ArgumentParser(description='Automated buying webticket \
+                                 for slovak rails.')
+parser.add_argument('FROM', help='From this city.')
+parser.add_argument('TO', help='To this city.')
+parser.add_argument('--time', '-t', help='Time when train is leaving \
+                    origin station. Format HH:MM.')
+parser.add_argument('--name', '-n', help='Exact name of the train,\
+                    e.g. \'slovenská strela\', \'csárdás\',...')
 
-city_from = "Kúty"
-city_to = "BRATISLAVA"
+args = parser.parse_args()
+
+city_from = args.FROM
+city_to = args.TO
+train_time = args.time
+train_name = args.name
+
+raise SystemExit(0)
 
 driver = webdriver.Firefox()
 driver.get(
