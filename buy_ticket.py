@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 import argparse
 
+from time import sleep
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
@@ -60,13 +62,13 @@ elem_city_to.send_keys(city_to)
 elem_city_to.send_keys(Keys.RETURN)
 
 # There is now list of trains.
-delay = 5
+sleep(0.05)
 driver.find_element_by_xpath(
-    "//form[@id='searchForm']/div/table/tbody/tr[contains(.,\'" +
-    train_number + "\')]/td[contains(.,'Nákup dokladu')]/a"
+        "//form[@id='searchForm']/div/table/tbody/tr[contains(.,\'" +
+        train_number + "\')]/td[contains(.,'Nákup dokladu')]/a"
 ).click()
-delay = 5
+sleep(0.3)
 driver.find_element_by_xpath(
-    "//form[@id='searchForm']/div/table/tbody/tr[contains(.,\'" +
-    train_number + "\')]/td[contains(.,'Nákup dokladu')]/div/a"
+        "//form[@id='searchForm']/div/table/tbody/tr[contains(.,\'" +
+        train_number + "\')]/td[contains(.,'Nákup dokladu')]/div/a"
 ).click()
