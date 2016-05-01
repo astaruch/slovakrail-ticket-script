@@ -62,9 +62,11 @@ elem_city_to.send_keys(Keys.RETURN)
 # There is now list of trains.
 delay = 5
 driver.find_element_by_xpath(
-    "//form[@id='searchForm']/div/table/tbody/tr[8]/td[3]/a"
+    "//form[@id='searchForm']/div/table/tbody/tr[contains(.,\'" +
+    train_number + "\')]/td[contains(.,'Nákup dokladu')]/a"
 ).click()
 delay = 5
 driver.find_element_by_xpath(
-    "//form[@id='searchForm']/div/table/tbody/tr[8]/td[3]/div/a"
+    "//form[@id='searchForm']/div/table/tbody/tr[contains(.,\'" +
+    train_number + "\')]/td[contains(.,'Nákup dokladu')]/div/a"
 ).click()
