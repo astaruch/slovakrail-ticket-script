@@ -36,6 +36,15 @@ train_time = (args.time)
 train_name = (args.name)
 train_number = (args.number)
 
+# Work only with one argument
+train = ""
+if train_number is not None:
+    train = train_number
+elif train_name is not None:
+    train = train_name
+else:
+    train = train_time
+
 print(city_from, city_to, train_time, train_name, train_number)
 
 driver = webdriver.Firefox()
@@ -57,18 +66,57 @@ assert "Železničný cestovný poriadok a predaj lístkov" in driver.title
 elem_city_from = driver.find_element_by_id("searchParamForm:fromInput")
 elem_city_to = driver.find_element_by_id("searchParamForm:toInput")
 
+# Set from and to city and hit enter
 elem_city_from.send_keys(city_from)
 elem_city_to.send_keys(city_to)
 elem_city_to.send_keys(Keys.RETURN)
+sleep(2)
 
 # There is now list of trains.
-sleep(0.05)
+# 'Nakup dokladu'
 driver.find_element_by_xpath(
-        "//form[@id='searchForm']/div/table/tbody/tr[contains(.,\'" +
-        train_number + "\')]/td[contains(.,'Nákup dokladu')]/a"
+    "//form[@id='searchForm']/div/table/tbody/tr[contains(.,\'" +
+    train + "\')]/td[contains(.,'Nákup dokladu')]/a"
 ).click()
-sleep(0.3)
+sleep(1)
+# 'Cestovny listok'
 driver.find_element_by_xpath(
-        "//form[@id='searchForm']/div/table/tbody/tr[contains(.,\'" +
-        train_number + "\')]/td[contains(.,'Nákup dokladu')]/div/a"
+    "//form[@id='searchForm']/div/table/tbody/tr[contains(.,\'" +
+    train + "\')]/td[contains(.,'Nákup dokladu')]/div/a"
 ).click()
+sleep(0.5)
+
+# We are on specific train (based on name or number)
+# 'Zvolte typ cestujuceho'
+driver.find_element_by_xpath(
+    "//table[@id='tmp-table-parameters']/tbody/tr[2]/td[1]/div/div"
+).click()
+sleep(0.5)
+
+# 'Ziak/student'
+driver.find_element_by_xpath(
+    "//table[@id='tmp-table-parameters']/tbody/tr[2]/td[1]/div/ul/li[3]"
+).click()
+sleep(2)
+
+# 'Pokracovat v nakupe'
+driver.find_element_by_xpath(
+    "//form[@id='ticketParam']/div[2]/a[2]"
+).click()
+sleep(3)
+
+# We are on revision page with shoping basket
+# 'Pokracovat v nakupe'
+driver.find_element_by_xpath(
+    "//form[@id='shoppingCart']/div/div[2]/div/a[2]"
+).click()
+sleep(1)
+
+# 'Chcem zaplatit bez prihlasenia alebo registracie'
+driver.find_element_by_xpath(
+    "//form[@id='loginMode']/div/div[1]/div[3]/p/a/label"
+).click()
+sleep(2)
+
+# We are on page with information about pasagiers
+# Fillup info
