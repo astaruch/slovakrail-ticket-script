@@ -37,7 +37,7 @@ train_name = (args.name)
 train_number = (args.number)
 
 # Work only with one argument
-train = ""
+train = ''
 if train_number is not None:
     train = train_number
 elif train_name is not None:
@@ -49,28 +49,28 @@ print(city_from, city_to, train_time, train_name, train_number)
 
 driver = webdriver.Firefox()
 driver.get(
-    "https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/search.xhtml")
+    'https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/search.xhtml')
 
 delay = 5  # wait seconds for web page to load
 try:
     WebDriverWait(driver, delay)\
         .until(EC.presence_of_all_elements_located
-               ((By.ID, "searchParamForm"))
+               ((By.ID, 'searchParamForm'))
                )
-    print("Page is ready.")
+    print('Page is ready.')
 except TimeoutException:
-    print("Loading took too much time.")
+    print('Loading took too much time.')
 
-assert "Železničný cestovný poriadok a predaj lístkov" in driver.title
+assert 'Železničný cestovný poriadok a predaj lístkov' in driver.title
 
-elem_city_from = driver.find_element_by_id("searchParamForm:fromInput")
-elem_city_to = driver.find_element_by_id("searchParamForm:toInput")
+elem_city_from = driver.find_element_by_id('searchParamForm:fromInput')
+elem_city_to = driver.find_element_by_id('searchParamForm:toInput')
 
 # Set from and to city and hit enter
 elem_city_from.send_keys(city_from)
 elem_city_to.send_keys(city_to)
 elem_city_to.send_keys(Keys.RETURN)
-sleep(2)
+sleep(3)
 
 # There is now list of trains.
 # 'Nakup dokladu'
@@ -103,7 +103,7 @@ sleep(2)
 driver.find_element_by_xpath(
     "//form[@id='ticketParam']/div[2]/a[2]"
 ).click()
-sleep(3)
+sleep(1.5)
 
 # We are on revision page with shoping basket
 # 'Pokracovat v nakupe'
@@ -119,4 +119,85 @@ driver.find_element_by_xpath(
 sleep(2)
 
 # We are on page with information about pasagiers
-# Fillup info
+# Load info about person from external person.txt
+
+
+def getPersonFromFile(filename):
+    import imp
+    f = open(filename)
+    global person
+    person = imp.load_source('person', '', f)
+    f.close()
+
+getPersonFromFile('person.txt')
+
+# Fillup info in webpage from file
+
+# 'Meno'
+driver.find_element_by_id('personalData:payerItemsList:0:field').send_keys(
+    person.name)
+# 'Priezvisko'
+driver.find_element_by_id('personalData:payerItemsList:1:field').send_keys(
+    person.surname)
+# 'Ulica, cislo'
+driver.find_element_by_id('personalData:payerItemsList:2:field').send_keys(
+    person.street)
+# 'Mesto'
+driver.find_element_by_id('personalData:payerItemsList:3:field').send_keys(
+    person.city)
+# 'PSC'
+driver.find_element_by_id('personalData:payerItemsList:4:field').send_keys(
+    person.postcode)
+# 'Mobil'
+# 'Email'
+driver.find_element_by_id('personalData:payerItemsList2:6:field').send_keys(
+    person.email)
+# 'Preukaz cislo'
+driver.find_element_by_id('personalData:payerItemsList2:7:field').send_keys(
+    person.id_number)
+
+# 'Meno'
+driver.find_element_by_id(
+    'personalData:shoppingCartItemList:0:travellerItemsList:0:field')\
+    .send_keys(person.name)
+# 'Priezvisko'
+driver.find_element_by_id(
+    'personalData:shoppingCartItemList:0:travellerItemsList:1:field')\
+    .send_keys(person.surname)
+# 'ID preukaz'
+driver.find_element_by_id(
+    'personalData:shoppingCartItemList:0:travellerItemsList:2:field')\
+    .send_keys(person.id_number)
+# 'Typ preukazu'
+driver.find_element_by_id(
+    'personalData:shoppingCartItemList:0:travellerItemsList:3:cardType')\
+    .click()
+sleep(0.5)
+driver.find_element_by_xpath(
+    "//div[@id='personalData:shoppingCartItemList:0:travellerItemsList:3" +
+    ":cardTypeBlock']/div/div/div/ul/li[2]")\
+    .click()
+# 'Slovenska republika'
+# 'Registracne cislo'
+driver.find_element_by_id(
+    'personalData:shoppingCartItemList:0:travellerItemsList:3:field')\
+    .send_keys(person.train_card)
+# 'Potvrdenie spravnosti informacii'
+driver.find_element_by_xpath(
+    "//form[@id='personalData']/div/div[1]/div[4]/p/label")\
+    .click()
+# 'Pokracovat v platbe'
+driver.find_element_by_xpath(
+    "//form[@id='personalData']/div/div[2]/a[2]")\
+    .click()
+sleep(1)
+# 'Suhlas s obchodnymi podmienkami'
+driver.find_element_by_xpath(
+    "//div[@id='tmp-payment']/div[1]/div[4]/p[2]/label")\
+    .click()
+# 'Pokracovat v nakupe'
+driver.find_element_by_xpath(
+    "//div[@id='tmp-payment']/div[2]/a[2]")\
+    .click()
+
+
