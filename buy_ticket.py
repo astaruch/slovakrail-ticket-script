@@ -40,11 +40,9 @@ def getPersonFromFile(filename):
     f.close()
 
 
-def buy_ticket(parser):
-    args = parser.parse_args()
-
-    city_from = (args.FROM)
-    city_to = (args.TO)
+def buy_ticket(args):
+    city_from = (args.from_city)
+    city_to = (args.to_city)
     train_time = (args.time)
     train_name = (args.name)
     train_number = (args.number)
@@ -208,25 +206,59 @@ def buy_ticket(parser):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Automated buying webticket \
-                                     for slovak rails. You must specify origin\
-                                     city and the destination, in exactly form,\
-                                     like it is on the website\
-                                     https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/initSearch.xhtml.\n\
-                                     You must specify, leaving time from origin\
-                                     city, name of the train or his number.\
-                                     Only one is required.')
-    parser.add_argument('FROM', help='From this city.')
-    parser.add_argument('TO', help='To this city.')
+    parser = argparse.ArgumentParser(
+        description='''
+Automated buying webticket for slovak rails. You must specify origin city
+and the destination, in exactly form, like it is on the website of the zssk.
+https://ikvc.slovakrail.sk/inet-sales-web/pages/connection/initSearch.xhtml.
+You must specify, leaving time from origin city, name of the train or his
+number. Only one is required.''',
+        epilog='''
+EXAMPLES
+    python buy_ticket.py create --txt person
+        Create simple encrypted file with info about person needed in forms.
+
+    python buy_ticket.py create --txt card
+        Create simple encrypted file with info about credit card.
+
+    python buy_ticket.py buy -f 'Bratislava hl.st.' -to Kúty -t 04:55
+        Buy ticket from Bratislava to Kúty for a train which is leaving
+        Bratislava at 04:55 and then send ticket to the email.
+
+    python buy_ticket.py buy -f Kúty -to 'Bratislava hl.st.' --name Slovan
+        Buy ticket from Kuty to Bratsilava for a train named Slovan and
+        then send ticket to the email.
+''',
+        formatter_class=argparse.RawDescriptionHelpFormatter,)
+    parser.add_argument('OPTION', help='This will determine run of\
+                        program. \n If you are running for the first time,\
+                        run with option "create" following --txt card/person.\
+                        Program will create card.txt or person.txt, which uses\
+                        later. \n \n Otherwise use option "buy" with other\
+                        arguments. For further info see examples.')
+    parser.add_argument('--from-city', '-f', help='From this city.')
+    parser.add_argument('--to-city', '-to', help='To this city.')
     parser.add_argument('--time', '-t', help='Time when train is leaving \
                     origin station. Format HH:MM.')
     parser.add_argument('--name', '-n', help='Exact name of the train,\
                     e.g. \'slovenská strela\', \'csárdás\', ...')
     parser.add_argument('--number', '-nr', help='Number of the train,\
                     e.g. 270, 271, ...')
+    parser.add_argument('--txt', help='Create credit card ("card") or person\
+                                       ("person").')
+    args = parser.parse_args()
 
-    buy_ticket(parser)
-
-
+    if args.OPTION == 'buy':
+        buy_ticket(args)
+    elif args.OPTION == 'create':
+        if args.OPTION == 'card':
+            pass
+        elif args.OPTION == 'person':
+            pass
+        else:
+            print('Wrong argument for creating text file. Try again.')
+    else:
+        print('''You missed argument to create text file/buying ticket. \
+Try again.''')
 if __name__ == '__main__':
     main()
