@@ -105,7 +105,8 @@ def buy_ticket(args):
     ).click()
     sleep(0.5)
 
-    # 'Ziak/student'
+    # 'Ziak/student' -> is option li[3]. If you are not student, edit it to
+    # appropriate value
     driver.find_element_by_xpath(
         "//table[@id='tmp-table-parameters']/tbody/tr[2]/td[1]/div/ul/li[3]"
     ).click()
