@@ -4,14 +4,14 @@ Script for automated buying ticket for slovak rails https://www.slovakrail.sk/sk
 Script will click on buttons, and fill up the input boxes for you, from the file `person.txt`. Source code is self-explanatory with comments, so you can edit it, with the proper values (e.g. I am student, if you are not, you need to change it in source).
 
 # Requirements
--python3
--pip packages:
-flake8==2.5.4
-mccabe==0.4.0
-pep8==1.7.0
-pyflakes==1.0.0
-selenium==2.53.2
-Unidecode==0.4.19
+- python3
+- pip packages:
+- flake8==2.5.4
+- mccabe==0.4.0
+- pep8==1.7.0
+- pyflakes==1.0.0
+- selenium==2.53.2
+- Unidecode==0.4.19
 
 # Installation
 ## virtual environment (recommended)
