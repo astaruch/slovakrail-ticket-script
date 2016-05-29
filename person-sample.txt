@@ -1,0 +1,9 @@
+name = 'Jožko'
+surname = 'Mrkvička'
+street = 'Sedmikráskova, 9'
+city = 'Bratislava'
+postcode = '81100'
+email = 'jozko.mrkvicka@gmail.com'
+id_number = 'AB123456'
+train_card = '1234567'
+
