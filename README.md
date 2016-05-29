@@ -31,5 +31,22 @@ git clone https://github.com/astaruch/slovakrail-ticket-script.git
 pip install -r requirements.txt
 ```
 
-# Executing
-You need the file `person.txt`. Create new or edit the sampler, with info you need.
+# Usage
+You need the file `person.txt`. Create new or edit the sample, with info about you.
+
+The execute script with help option for more info:
+```
+python buy_ticket -h
+
+usage: buy_ticket.py [-h] [--from-city FROM_CITY] [--to-city TO_CITY]
+                     [--time TIME] [--name NAME] [--number NUMBER] [--txt TXT]
+                     OPTION
+```
+
+You need to define, that you want to buy ticket, cities with exact same name like they are on the website and some info about the train.
+
+# Examples
+```
+    python buy_ticket.py buy -f 'Bratislava hl.st.' -to Kúty -t 04:55
+    python buy_ticket.py buy -f Kúty -to 'Bratislava hl.st.' --name Slovan
+```
