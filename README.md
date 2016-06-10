@@ -12,6 +12,7 @@ Script will click on buttons, and fill up the input boxes for you, from the file
 - pyflakes==1.0.0
 - selenium==2.53.2
 - Unidecode==0.4.19
+- Firefox<47
 
 # Installation
 ## virtual environment (recommended)
