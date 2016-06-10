@@ -51,3 +51,7 @@ You need to define, that you want to buy ticket, cities with exact same name lik
     python buy_ticket.py buy -f 'Bratislava hl.st.' -to Kúty -t 04:55
     python buy_ticket.py buy -f Kúty -to 'Bratislava hl.st.' --name Slovan
 ```
+
+# Video
+
+![Usage](usage.gif?raw=true "Usage")
