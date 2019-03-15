@@ -35,6 +35,7 @@ wget https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodrive
 tar -xvzf geckodriver-v0.24.0-linux64.tar.gz
 chmod +x geckodriver
 sudo mv geckodriver /usr/local/bin
+rm -v geckodriver-v0.24.0-linux64.tar.gz
 
 # 3) repository
 git clone https://github.com/astaruch/slovakrail-ticket-script.git
