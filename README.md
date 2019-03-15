@@ -1,10 +1,10 @@
 # slovakrail-ticket-script
 
-Script for automated buying **free** ticket for slovak rails https://www.slovakrail.sk/sk/internetovy-obchod/internetovy-obchod-zssk.html
+Automated **free** ticket buying at [www.zssk.sk](https://www.zssk.sk/).
 
-Script will click on buttons, and fill up the input boxes for you, from the file `person.txt`. Source code is self-explanatory with comments, so you can edit it, with the proper values (e.g. I am student, if you are not, you need to change it in source).
+Script will click on buttons and fill up the input boxes for you with the predefined data in `person.txt` file.
 
-# Requirements
+## Requirements
 - python3.6
 - pip packages:
   - flake8 = 2.5.4
@@ -16,7 +16,7 @@ Script will click on buttons, and fill up the input boxes for you, from the file
   - Firefox < 47
 - geckodriver = 0.24.0
 
-# Installation
+## Installation
 
 ### Ubuntu 16.04.6
 
@@ -47,9 +47,9 @@ python3.6 -m pip install -r requirements.txt
 python3.6 buy_ticket.py --help
 ```
 
-3. See *Usage* section
+3. See [*Usage*](https://github.com/astaruch/slovakrail-ticket-script#usage) section
 
-# Usage
+## Usage
 
 * help
 	```sh
@@ -62,3 +62,15 @@ python3.6 buy_ticket.py --help
 
 	python3.6 buy_ticket.py buy -f 'Bratislava hl.st.' -to 'Kúty' -t '05:16' -d '16.03.2019'
 	```
+
+## Help
+
+If you have purchased a wrong ticket you are able to cancel it [here](https://ikvc.slovakrail.sk/inet-sales-reimb/pages/connection/search.xhtml).
+
+## Contributing
+
+Feel free to contribute via opening a [pull request](https://help.github.com/articles/creating-a-pull-request/) or an [issue](https://help.github.com/articles/creating-an-issue/).
+
+## License
+
+This project is available as open source under the terms of the [GPL-3.0 License](https://github.com/europ/slovakrail-ticket-script/blob/master/LICENSE).
