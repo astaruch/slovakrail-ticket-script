@@ -59,9 +59,8 @@ python3.6 buy_ticket.py --help
 
 * Define the **exact** time, date, destinations (from and to) of your train.<br>Example:<br>
 	```sh
-	./buy_ticket.py buy -f 'Bratislava hl.st.' -to 'Kúty' -t '05:16' -d '16.03.2019'
-
-	python3.6 buy_ticket.py buy -f 'Bratislava hl.st.' -to 'Kúty' -t '05:16' -d '16.03.2019'
+	./buy_ticket.py -de "Bratislava hl.st." -ar "Kúty" -t "05:16" -d "18.03.2019"
+	python buy_ticket.py -de "Bratislava hl.st." -ar "Kúty" -t "05:16" -d "18.03.2019"
 	```
 
 ## Help
