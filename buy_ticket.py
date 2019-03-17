@@ -1,6 +1,7 @@
 #!/usr/bin/python3.6
 # coding=UTF-8
 
+
 import os
 import sys
 import argparse
@@ -18,8 +19,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from time import sleep
 
 
-def die(message,exitcode):
-    sys.stderr.write("{}\n".format(message))
+def die(msg,exitcode=1):
+    sys.stderr.write('{} {}:{} ERROR: {}\n'.format(
+            datetime.datetime.now(),
+            caller.filename,
+            caller.lineno,
+            msg
+        )
+    )
     sys.exit(exitcode)
 
 
@@ -27,26 +34,26 @@ def is_date(msg):
     try:
         datetime.datetime.strptime(msg, '%d.%m.%Y')
     except ValueError:
-        die("Wrong date option!",2)
+        die('Wrong date option!',2)
 
 
 def is_time(msg):
     try:
         datetime.datetime.strptime(msg, '%H:%M')
     except ValueError:
-        die("Wrong time option!",3)
+        die('Wrong time option!',3)
 
 
 def log_info(msg):
     caller = getframeinfo(stack()[1][0])
-    sys.stdout.write(
-        "{} {}:{} INFO: {}\n".format(
+    sys.stdout.write('{} {}:{} INFO: {}\n'.format(
             datetime.datetime.now(),
             caller.filename,
             caller.lineno,
             msg
         )
     )
+
 
 def load_user_credentials(filename):
     import imp
@@ -67,10 +74,10 @@ def buy_ticket(args):
 
     # FIREFOX PROFILE
     profile = FirefoxProfile()
-    profile.set_preference("browser.download.folderList",2);
-    profile.set_preference("browser.download.manager.showWhenStarting", False);
-    profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/octet-stream,application/vnd.ms-excel");
-    profile.set_preference("browser.download.dir",str(folder));
+    profile.set_preference('browser.download.folderList',2);
+    profile.set_preference('browser.download.manager.showWhenStarting', False);
+    profile.set_preference('browser.helperApps.neverAsk.saveToDisk', 'application/octet-stream,application/vnd.ms-excel');
+    profile.set_preference('browser.download.dir',str(folder));
     log_info('FirefoxProfile: "browser.download.dir" = "{}"'.format(str(folder)))
 
     # Launch Firefox web browser.
@@ -80,9 +87,9 @@ def buy_ticket(args):
     # driver.maximize_window()
 
     # Logging information
-    log_info("Opened {} (version {})".format(
-            driver.capabilities["browserName"],
-            driver.capabilities["browserVersion"]
+    log_info('Opened {} (version {})'.format(
+            driver.capabilities['browserName'],
+            driver.capabilities['browserVersion']
         )
     )
 
@@ -109,13 +116,20 @@ def buy_ticket(args):
 
     except TimeoutException:
         log_info('Loading took too much time.')
-        # TODO FIXME
+        log_info('Closed {} (version {}).'.format(
+               driver.capabilities['browserName'],
+               driver.capabilities['browserVersion']
+           )
+        )
+        driver.close()
+        die('Page loading failure.',1)
 
     sleep(1)
 
     # Info
     log_info('Page title is "{}".'.format(driver.title))
 
+    # Check if 'ZSSK' is in the page title
     assert 'ZSSK' in driver.title
 
     # FROM
@@ -308,9 +322,9 @@ def buy_ticket(args):
     """
 
     # Waiting 10 seconds
-    log_info("Waiting 10 seconds before closing {} (version {}).".format(
-            driver.capabilities["browserName"],
-            driver.capabilities["browserVersion"]
+    log_info('Waiting 10 seconds before closing {} (version {}).'.format(
+            driver.capabilities['browserName'],
+            driver.capabilities['browserVersion']
         )
     )
     sleep(10)
@@ -319,9 +333,9 @@ def buy_ticket(args):
     driver.close()
 
     # Info
-    log_info("Closed {} (version {}).".format(
-            driver.capabilities["browserName"],
-            driver.capabilities["browserVersion"]
+    log_info('Closed {} (version {}).'.format(
+            driver.capabilities['browserName'],
+            driver.capabilities['browserVersion']
         )
     )
 
