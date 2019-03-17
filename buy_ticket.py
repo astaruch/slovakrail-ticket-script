@@ -6,7 +6,7 @@ import sys
 import argparse
 import datetime
 
-from time import sleep
+from inspect import getframeinfo, stack
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
@@ -15,6 +15,7 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from time import sleep
 
 
 def die(message,exitcode):
@@ -37,9 +38,12 @@ def is_time(msg):
 
 
 def log_info(msg):
+    caller = getframeinfo(stack()[1][0])
     sys.stdout.write(
-        "{} INFO: {}\n".format(
+        "{} {}:{} INFO: {}\n".format(
             datetime.datetime.now(),
+            caller.filename,
+            caller.lineno,
             msg
         )
     )
@@ -59,7 +63,7 @@ def buy_ticket(args):
 
     # FIREFOX OPTIONS
     options = Options();
-    options.headless = True
+    options.headless = args.headless
 
     # FIREFOX PROFILE
     profile = FirefoxProfile()
@@ -67,7 +71,7 @@ def buy_ticket(args):
     profile.set_preference("browser.download.manager.showWhenStarting", False);
     profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/octet-stream,application/vnd.ms-excel");
     profile.set_preference("browser.download.dir",str(folder));
-    log_info('browser.download.dir = "{}"'.format(str(folder)))
+    log_info('FirefoxProfile: "browser.download.dir" = "{}"'.format(str(folder)))
 
     # Launch Firefox web browser.
     driver = webdriver.Firefox(options=options, firefox_profile=profile)
@@ -87,6 +91,9 @@ def buy_ticket(args):
 
     # Load page 'Vyhľadanie spojenia'
     driver.get('https://ikvc.slovakrail.sk/esales/search')
+
+    # Info
+    log_info('Loading page "Vyhľadanie spojenia"')
 
     try:
         delay = 30  # wait seconds for web page to load, added more second
@@ -173,21 +180,21 @@ def buy_ticket(args):
         '/html/body/div[1]/div/div[2]/div[3]/span/div/div[1]/form/div/div/div/div/div/div/div[1]/div[1]/div/div/div/div/a[1]/span[2]'
     ).click()
     log_info('Choosing passenger type.')
-    sleep(0.5)
+    sleep(1)
 
     # JUNIOR SELECTION
     driver.find_element_by_xpath(
         '/html/body/div[1]/div/div[2]/div[3]/span/div/div[1]/form/div/div/div/div/div/div/div[1]/div[1]/div/div/div[1]/div/a[1]/ul/li[3]'
     ).click()
     log_info('Selected "Mladý (16 - 25 r.)".')
-    sleep(0.5)
+    sleep(1)
 
     # DISCOUNT SELECTION
     driver.find_element_by_xpath(
         '/html/body/div[1]/div/div[2]/div[3]/span/div/div[1]/form/div/div/div/div/div/div/div[1]/div[1]/div/div/div/div/a[2]/span[2]'
     ).click()
     log_info('Choosing card type.')
-    sleep(0.5)
+    sleep(1)
 
     # CARD SELECTION
     driver.find_element_by_xpath(
@@ -208,7 +215,7 @@ def buy_ticket(args):
         '//*[@id="actionIndividualContinue"]'
     ).click()
     log_info('Clicked on "Pokračovať" at "Voľba cestujúcich".')
-    sleep(2)
+    sleep(3)
 
     # CONTINUE
     driver.find_element_by_xpath(
@@ -300,6 +307,14 @@ def buy_ticket(args):
     log_info('DOWNLOAD: PDF downloaded to "{}".'.format(str(folder)))
     """
 
+    # Waiting 10 seconds
+    log_info("Waiting 10 seconds before closing {} (version {}).".format(
+            driver.capabilities["browserName"],
+            driver.capabilities["browserVersion"]
+        )
+    )
+    sleep(10)
+
     # Close the web browser (Firefox).
     driver.close()
 
@@ -313,9 +328,6 @@ def buy_ticket(args):
 
 def main():
 
-    # Info
-    log_info("Running {}".format(str(__file__)))
-
     # Argument parser
     parser = argparse.ArgumentParser(
         description = (
@@ -325,19 +337,20 @@ def main():
         ),
         epilog = (
             'EXAMPLES\n'
-            '       ./buy_ticket.py -de "Bratislava hl.st." -ar "Kúty" -t "05:16" -d "18.03.2019"\n'
-            '       python buy_ticket.py -de "Bratislava hl.st." -ar "Kúty" -t "05:16" -d "18.03.2019"\n'
+            '       python3.6 buy_ticket -h\n'
+            '       python3.6 buy_ticket.py -D "Bratislava hl.st." -A "Kúty" -t "05:16" -d "18.03.2019"\n'
+            '       python3.6 buy_ticket.py -D "Bratislava hl.st." -A "Kúty" -t "05:16" -d "18.03.2019" -H\n'
         ),
         formatter_class = argparse.RawDescriptionHelpFormatter
     )
     parser.add_argument(
         '--departure',
-        '-de',
+        '-D',
         help='Exact departure station. Example: Bratislava hl.st.'
     )
     parser.add_argument(
         '--arrival',
-        '-ar',
+        '-A',
         help='Exact arrival station. Example: Kúty'
     )
     parser.add_argument(
@@ -350,9 +363,18 @@ def main():
         '-d',
         help='Exact departure date in format: DD.MM.YYYY. Example: 16.03.2019'
     )
+    parser.add_argument(
+        '-H',
+        '--headless',
+        action='store_true',
+        help='Run browser in a headless mode.'
+    )
 
     # Argument parsing.
     args = parser.parse_args()
+
+    # Info
+    log_info("Running {}".format(str(__file__)))
 
     # Date check
     is_date(args.date)
