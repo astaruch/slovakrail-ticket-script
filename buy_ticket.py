@@ -180,14 +180,14 @@ def buy_ticket(args):
         'div.connection-group:nth-child(2) > div:nth-child(1)'
     ).click()
     log_info('Clicked on first train.')
-    sleep(0.5)
+    sleep(1)
 
     # BUY TICKET
     driver.find_element_by_xpath(
         '//*[@id="dayGroupLoop:0:eSalesConnectionLoop:0:j_idt302"]'
     ).click()
     log_info('Clicked on "Kúpiť lístok".')
-    sleep(0.5)
+    sleep(1)
 
     # PASSENGER TYPE SELECTION
     driver.find_element_by_xpath(
@@ -222,7 +222,7 @@ def buy_ticket(args):
         '/html/body/div[1]/div/div[2]/div[3]/span/div/div[1]/form/div/div/div/div/div/div/div[1]/div[1]/div/div/div[2]/div/div/label'
     ).click()
     log_info('Checkbox enabled for "Nárok na bezplatnú prepravu".')
-    sleep(0.5)
+    sleep(1)
 
     # CONTINUE
     driver.find_element_by_xpath(
@@ -286,28 +286,28 @@ def buy_ticket(args):
         '//*[@id="j_idt177"]'
     ).click()
     log_info('Clicked on "Pokračovať" at "Osobné údaje (2)".')
-    sleep(0.5)
+    sleep(1)
 
     # I AGREE WITH THE TERMS AND CONDITIONS
     driver.find_element_by_xpath(
         '/html/body/div[1]/div/div[2]/div[3]/div[2]/div/form/div/div/div[1]/div/div/div/label'
     ).click()
     log_info('Checkbox enabled for "Súhlasím s obchodnými podmienkami " at "Výber platby (3)".')
-    sleep(0.5)
+    sleep(1)
 
     # CONTINUE
     driver.find_element_by_xpath(
         '//*[@id="j_idt107"]'
     ).click()
     log_info('Clicked on "Pokračovať" at "Výber platby (3)".')
-    sleep(0.5)
+    sleep(1)
 
     # PAY
     driver.find_element_by_xpath(
         '//*[@id="cartForm:j_idt240"]'
     ).click()
     log_info('Clicked on "Zaplatiť" at "Súhrn (4)".')
-    sleep(0.5)
+    sleep(1)
 
     """
     TODO
