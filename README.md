@@ -25,7 +25,7 @@ The only thing what you are required to do is to launch the script with **exact*
 
 #### Ubuntu 16.04.6
 
-1. Set your account in `person.txt`.
+1. Set your account credentials in `person.txt`.
 
 2. Initialize the environment via these commands:
 
@@ -59,12 +59,14 @@ python3.6 buy_ticket.py --help
 
 ### Options
 
+Order does not matter.
+
 #### Mandatory
 
-* Departure station `-D` or `--departure`
-* Arrival station `-A` or `--arrival`
-* Departure time `-t` or `--time`
-* Departure date `-d` or `--date`
+* Departure station `-D "Foo"` or `--departure "Foo"`
+* Arrival station `-A "Bar"` or `--arrival "Bar"`
+* Departure time `-t "HH:MM"` or `--time "HH:MM"`
+* Departure date `-d "DD.MM.YYYY"` or `--date "DD.MM.YYYY"`
 
 #### Optional
 

@@ -346,22 +346,22 @@ def main():
     parser.add_argument(
         '--departure',
         '-D',
-        help='Exact departure station. Example: Bratislava hl.st.'
+        help='Exact departure station.'
     )
     parser.add_argument(
         '--arrival',
         '-A',
-        help='Exact arrival station. Example: Kúty'
+        help='Exact arrival station.'
     )
     parser.add_argument(
         '--time',
         '-t',
-        help='Exact departure time in format: HH:MM. Example: 08:08'
+        help='Exact departure time in format: HH:MM.'
     )
     parser.add_argument(
         '--date',
         '-d',
-        help='Exact departure date in format: DD.MM.YYYY. Example: 16.03.2019'
+        help='Exact departure date in format: DD.MM.YYYY.'
     )
     parser.add_argument(
         '-H',
@@ -374,7 +374,7 @@ def main():
     args = parser.parse_args()
 
     # Info
-    log_info("Running {}".format(str(__file__)))
+    log_info('Running {}'.format(str(__file__)))
 
     # Date check
     is_date(args.date)
@@ -388,13 +388,16 @@ def main():
     if isinstance(args.departure, str):
         log_info('DEPARTURE = {}'.format(args.departure))
     else:
-        die("Wrong departure option!",4)
+        die('Wrong departure option!',4)
 
     # Arrival destination check
     if isinstance(args.arrival, str):
         log_info('ARRIVAL = {}'.format(args.arrival))
     else:
-        die("Wrong arrival option!",5)
+        die('Wrong arrival option!',5)
+
+    # Headless browser mode
+    log_info('HEADLESS = {}'.format(args.headless))
 
     # Buy ticket
     buy_ticket(args)
