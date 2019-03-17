@@ -104,7 +104,7 @@ Order does not matter.
 
 ## Help
 
-If you have purchased a wrong ticket you are able to cancel it [here](https://ikvc.slovakrail.sk/inet-sales-reimb/pages/connection/search.xhtml).
+If you have purchased a wrong ticket you are able to cancel it [here](https://ikvc.slovakrail.sk/esales/refund).
 
 In case of any problem, please feel free to open an [issue](https://help.github.com/articles/creating-an-issue/) and specify the problem with **detailed** description.
 
